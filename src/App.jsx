@@ -210,7 +210,7 @@ function Search({ query, setQuery }) {
     />
   );
 }
-const KEY = "5c9d3b02";
+const KEY = import.meta.env.VITE_API_KEY;
 export default function App() {
   const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState([]);
