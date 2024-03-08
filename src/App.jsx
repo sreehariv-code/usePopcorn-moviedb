@@ -199,9 +199,7 @@ function Main({ children }) {
   return <main className="main">{children}</main>;
 }
 
-function Search() {
-  const [query, setQuery] = useState("");
-
+function Search({ query, setQuery }) {
   return (
     <input
       className="search"
@@ -217,42 +215,48 @@ export default function App() {
   const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('')
+  const [error, setError] = useState("");
+  const [query, setQuery] = useState("");
 
-  const query = "asdgfrsgvs"
+  const tempQuery = "madame web";
+
+  useEffect(function () {
+    console.log("A");
+  }, []);
+  useEffect(function () {
+    console.log("B");
+  });
+
+  console.log("C");
 
   useEffect(function () {
     async function fetchMovies() {
-
       try {
-        setIsLoading(true)
-        const res = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${query}`);
-        if (!res.ok) throw new Error("Something went wrong fetching movies")
-
+        setIsLoading(true);
+        const res = await fetch(
+          `http://www.omdbapi.com/?apikey=${KEY}&s=${tempQuery}`
+        );
+        if (!res.ok) throw new Error("Something went wrong fetching movies");
 
         const data = await res.json();
-        if (data.Response === 'False') throw new Error("Movie Not Found")
+        if (data.Response === "False") throw new Error("Movie Not Found");
 
-        setMovies(data.Search)
-        setIsLoading(false)
+        setMovies(data.Search);
+        setIsLoading(false);
       } catch (error) {
-        setError(error.message)
+        setError(error.message);
       } finally {
-        setIsLoading(false)
+        setIsLoading(false);
       }
     }
-    fetchMovies()
+    fetchMovies();
   }, []);
-
-
-
-
 
   return (
     <>
       <NavBar>
         <Logo />
-        <Search />
+        <Search query={query} setQuery={setQuery} />
         <NumResults movies={movies} />
       </NavBar>
 
@@ -274,12 +278,14 @@ export default function App() {
 }
 
 function Loader() {
-  return <p className="loader">Loading</p>
+  return <p className="loader">Loading</p>;
 }
 
 function ErrorMessage({ message }) {
-  return <p className="error">
-
-    <span>🛑</span>{message}
-  </p>
+  return (
+    <p className="error">
+      <span>🛑</span>
+      {message}
+    </p>
+  );
 }
