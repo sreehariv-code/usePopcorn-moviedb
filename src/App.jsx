@@ -221,13 +221,17 @@ export default function App() {
   const tempQuery = "madame web";
 
   useEffect(function () {
-    console.log("A");
+    console.log("After initial render");
   }, []);
   useEffect(function () {
-    console.log("B");
+    console.log("After every render");
   });
 
-  console.log("C");
+  console.log("During Render");
+
+  useEffect(function () {
+    console.log("Synchronized with 'query' state")
+  }, [query])
 
   useEffect(function () {
     async function fetchMovies() {
