@@ -230,6 +230,10 @@ export default function App() {
   console.log("During Render");
 
   useEffect(function () {
+    console.log("Synchronized with 'query' state")
+  }, [query])
+
+  useEffect(function () {
     async function fetchMovies() {
       try {
         setIsLoading(true);
